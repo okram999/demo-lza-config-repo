@@ -28,7 +28,7 @@ mandatoryAccounts:
     email: niris+audit-broad@amazon.com
     organizationalUnit: Security
     warm: false
-workloadAccounts:
+workloadAccounts: []
   # - name: Network
   #   description: The Central Network account
   #   email: SREDemoNetwork@amazon.com
