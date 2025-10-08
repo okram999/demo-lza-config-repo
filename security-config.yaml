@@ -1,0 +1,109 @@
+##################################################################################################################
+# For additional configurable services, features, and property descriptions,                                     #
+# please review our network configuration reference in our README.md:                                            #
+# https://awslabs.github.io/landing-zone-accelerator-on-aws/classes/_aws_accelerator_config.SecurityConfig.html  #
+##################################################################################################################
+
+homeRegion: &HOME_REGION us-east-1
+centralSecurityServices:
+  ##################################################################################################################
+  # Based upon AWS Security Reference Architecture (AWS SRA),                                                      #
+  # Assigning delegated administrator to security tooling (Audit) account                                          #
+  # https://docs.aws.amazon.com/prescriptive-guidance/latest/security-reference-architecture/security-tooling.html #
+  ##################################################################################################################
+  delegatedAdminAccount: Audit
+  ebsDefaultVolumeEncryption:
+    enable: true
+    excludeRegions: []
+  s3PublicAccessBlock:
+    enable: true
+    excludeAccounts: []
+  scpRevertChangesConfig:
+    enable: true
+  snsSubscriptions: []
+  macie:
+    enable: true
+    excludeRegions: []
+    policyFindingsPublishingFrequency: FIFTEEN_MINUTES
+    publishSensitiveDataFindings: true
+  guardduty:
+    enable: true
+    excludeRegions: []
+    s3Protection:
+      enable: true
+      excludeRegions: []
+    exportConfiguration:
+      enable: true
+      overrideExisting: true
+      destinationType: S3
+      exportFrequency: FIFTEEN_MINUTES
+  auditManager:
+    enable: false
+    excludeRegions: []
+    defaultReportsConfiguration:
+      enable: true
+      destinationType: S3
+    lifecycleRules:
+      - enabled: true
+        abortIncompleteMultipartUpload: 7
+        expiration: 1000
+        noncurrentVersionExpiration: 1000
+  detective:
+    enable: false
+    excludeRegions: []
+
+  ##################################################################################################################
+  # AWS Security Hub Configurations                                                                                #
+  ##################################################################################################################
+  securityHub:
+    enable: true
+    regionAggregation: false
+    excludeRegions: []
+    standards: 
+      #############################################################################################################
+      # Enable AWS Security Hub standards based upon a customer specific requirements                             #
+      # For the standard configuration, we have enabled the following standards:                                  #
+      # - AWS Foundational Security Best Practices (FSBP)                                                         #                                #
+      # - National Institute of Standards and Technology (NIST) SP 800-53 Rev. 5                                  #                                                                                                       #
+      # Controls that you might want to disable based upon Security Hub recommendation                            #
+      # https://docs.aws.amazon.com/securityhub/latest/userguide/controls-to-disable.html                         #
+      #############################################################################################################
+      - name: AWS Foundational Security Best Practices v1.0.0
+        # https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html
+        enable: true
+        controlsToDisable:
+          - "IAM.1"
+          - "EC2.10"
+          - "Lambda.4"
+          - "EC2.23"
+      - name: NIST Special Publication 800-53 Revision 5
+        # https://aws.amazon.com/about-aws/whats-new/2023/03/aws-security-hub-support-nist-sp-800-53-rev-5/
+        enable: true
+        controlsToDisable:
+          - "IAM.6" # Hardware MFA should be enabled for the root user
+          - "EC2.23" # EC2 Transit Gateways should not automatically accept VPC attachment requests
+          - "S3.8" # S3 Block Public Access setting should be enabled at the bucket-level
+          - "CloudWatch.15" # CloudWatch Alarms should have an action configured for the alarm state
+  ssmAutomation:
+    excludeRegions: []
+    documentSets: []
+accessAnalyzer:
+  enable: false
+iamPasswordPolicy:
+  allowUsersToChangePassword: true
+  hardExpiry: false
+  requireUppercaseCharacters: true
+  requireLowercaseCharacters: true
+  requireSymbols: true
+  requireNumbers: true
+  minimumPasswordLength: 14
+  passwordReusePrevention: 24
+  maxPasswordAge: 90
+awsConfig:
+  enableConfigurationRecorder: true
+  ruleSets: []
+cloudWatch:
+  metricSets: []
+  alarmSets: []
+keyManagementService:
+  keySets: []
