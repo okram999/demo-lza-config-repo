@@ -6,7 +6,25 @@ defaultVpc:
 
 endpointPolicies: []
 
-centralNetworkServices: []
+centralNetworkServices:
+  delegatedAdminAccount: Network
+  gatewayLoadBalancers: []
+  ipams: []
+  networkFirewall:
+    firewalls: []
+    policies: []
+    rules: []
+  route53Resolver:
+    endpoints: []
+    firewallRuleGroups: []
+    queryLogs:
+      name: accelerator-query-logs
+      destinations:
+        - cloud-watch-logs
+        - s3
+      shareTargets:
+        organizationalUnits:
+          - Root
 
 transitGateways: []
 vpcs: []
