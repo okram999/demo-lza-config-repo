@@ -29,8 +29,8 @@ mandatoryAccounts:
     organizationalUnit: Security
     warm: false
 workloadAccounts: []
-  # - name: Network
-  #   description: The Central Network account
-  #   email: SREDemoNetwork@amazon.com
-  #   organizationalUnit: Infrastructure
+  - name: Network
+    description: The Central Network account
+    email: niris+network-broad@amazon.com
+    organizationalUnit: Infrastructure
 
