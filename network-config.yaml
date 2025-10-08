@@ -1,0 +1,11 @@
+homeRegion: &HOME_REGION us-east-1
+
+defaultVpc:
+  delete: false
+  excludeAccounts: []
+
+endpointPolicies: []
+
+centralNetworkServices: []
+
+vpcs: []
