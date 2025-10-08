@@ -1,3 +1,10 @@
+####################################################################################################################################################
+# For additional configurable services, features, and property descriptions,                                                                       #
+# please review class IAM Config reference in our TypeDoc:                                                                                         #
+# https://awslabs.github.io/landing-zone-accelerator-on-aws/latest/typedocs/modules/___packages__aws_accelerator_config_lib_models_iam_config.html #
+####################################################################################################################################################
+
+
 providers: []
 
 # policySets:
