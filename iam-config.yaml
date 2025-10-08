@@ -32,18 +32,18 @@ roleSets:
             - CloudWatchAgentServerPolicy
         boundaryPolicy: Default-Boundary-Policy
 
-      - name: Backup-Role
-      # This role is utilized by the Backup Plans defined in global-config.yaml
-      # We create this role in every account where we plan to have Backup Plans
-      # and Backup Vaults
-        assumedBy:
-          - type: service
-            principal: backup.amazonaws.com
-        policies:
-          awsManaged:
-            - service-role/AWSBackupServiceRolePolicyForBackup
-            - service-role/AWSBackupServiceRolePolicyForRestores
-            - service-role/AWSBackupServiceRolePolicyForS3Backup
-            - service-role/AWSBackupServiceRolePolicyForS3Restore
+      # - name: Backup-Role
+      # # This role is utilized by the Backup Plans defined in global-config.yaml
+      # # We create this role in every account where we plan to have Backup Plans
+      # # and Backup Vaults
+      #   assumedBy:
+      #     - type: service
+      #       principal: backup.amazonaws.com
+      #   policies:
+      #     awsManaged:
+      #       - service-role/AWSBackupServiceRolePolicyForBackup
+      #       - service-role/AWSBackupServiceRolePolicyForRestores
+      #       - service-role/AWSBackupServiceRolePolicyForS3Backup
+      #       - service-role/AWSBackupServiceRolePolicyForS3Restore
 groupSets: []
 userSets: []
