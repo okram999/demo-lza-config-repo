@@ -1,0 +1,4 @@
+homeRegion: &HOME_REGION us-east-1
+enabledRegions:
+  - us-east-1
+  - us-west-2
