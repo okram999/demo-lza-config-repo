@@ -1,0 +1,17 @@
+#############################################################################################################################################################
+# For additional configurable services, features, and property descriptions,                                                                                #
+# please review class Organization Config reference in our TypeDoc:                                                                                         #
+# https://awslabs.github.io/landing-zone-accelerator-on-aws/latest/typedocs/modules/___packages__aws_accelerator_config_lib_models_organization_config.html #
+#############################################################################################################################################################
+
+###################################################################
+# AWS Organizations and Organizational Units (OUs) Configurations #
+###################################################################
+enable: true
+organizationalUnits:
+  - name: Security
+  - name: Enterprise
+    ignore: true
+  - name: Sandbox
+  - name: Research-hipaa
+    ignore: true
