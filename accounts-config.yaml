@@ -1,0 +1,36 @@
+#########################################################################################################################################################
+# For additional configurable services, features, and property descriptions,                                                                            #
+# please review class AccountsConfig reference in our TypeDoc:                                                                                          #
+# https://awslabs.github.io/landing-zone-accelerator-on-aws/latest/typedocs/modules/___packages__aws_accelerator_config_lib_models_accounts_config.html #
+#########################################################################################################################################################
+mandatoryAccounts:
+  - name: Management
+    description: >-
+      The management (primary) account. Do not change the name field for this
+      mandatory account. Note, the account name key does not need to match the
+      AWS account name.
+    email: niris+root-broadmit@amazon.com
+    organizationalUnit: Root
+    warm: false
+  - name: LogArchive
+    description: >-
+      The log archive account. Do not change the name field for this mandatory
+      account. Note, the account name key does not need to match the AWS account
+      name.
+    email: niris+logs-broad@amazon.com
+    organizationalUnit: Security
+    warm: false
+  - name: Audit
+    description: >-
+      The security audit account (also referred to as the audit account). Do not
+      change the name field for this mandatory account. Note, the account name
+      key does not need to match the AWS account name.
+    email: niris+audit-broad@amazon.com
+    organizationalUnit: Security
+    warm: false
+workloadAccounts:
+  # - name: Network
+  #   description: The Central Network account
+  #   email: SREDemoNetwork@amazon.com
+  #   organizationalUnit: Infrastructure
+
