@@ -33,4 +33,17 @@ centralNetworkServices:
           - Root
 
 transitGateways: []
-vpcs: []
+vpcs:
+  - name: Network-Inspection
+    account: Network
+    region: us-east-1
+    cidrs:
+      - 10.0.0.0/24
+    enableDnsHostnames: true
+    enableDnsSupport: true
+    instanceTenancy: default
+    routeTables: []
+    subnets: []
+    natGateways: []
+    transitGatewayAttachments: []
+    tags: []
