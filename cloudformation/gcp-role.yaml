@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'IAM Role for Google Cloud Storage Transfer Service with Federated Identity'
+
+Parameters:
+  GoogleSubjectId:
+    Type: String
+    Description: 'The subjectId of the Google-managed service account. Get this from googleServiceAccounts.get API'
+    AllowedPattern: '.+'
+    ConstraintDescription: 'Must provide a valid Google service account subject ID'
+    Default: '11223344556677889900'
+  
+  S3BucketName:
+    Type: String
+    Description: 'The name of the S3 bucket that Storage Transfer Service will access'
+    AllowedPattern: '^[a-z0-9][a-z0-9-]*[a-z0-9]$'
+    ConstraintDescription: 'Must be a valid S3 bucket name'
+    Default: 'niris-test-339712969562'
+  
+  AllowDelete:
+    Type: String
+    Description: 'Whether to allow deletion of objects from source after transfer'
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+
+Conditions:
+  EnableDeletePermission: !Equals [!Ref AllowDelete, 'true']
+
+Resources:
+  StorageTransferServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'GoogleStorageTransferServiceRole'
+      Description: 'IAM role for Google Cloud Storage Transfer Service to access S3 bucket'
+      MaxSessionDuration: 43200  # 12 hours
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: 'accounts.google.com'
+            Action: 'sts:AssumeRoleWithWebIdentity'
+            Condition:
+              StringEquals:
+                'accounts.google.com:sub': !Ref GoogleSubjectId
+      Policies:
+        - PolicyName: 'S3TransferAccessPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: 'ListBucketPermission'
+                Effect: Allow
+                Action:
+                  - 's3:ListBucket'
+                Resource: !Sub 'arn:aws:s3:::${S3BucketName}'
+              - Sid: 'ReadObjectPermissions'
+                Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:GetObjectVersion'
+                Resource: !Sub 'arn:aws:s3:::${S3BucketName}/*'
+              - !If
+                - EnableDeletePermission
+                - Sid: 'DeleteObjectPermission'
+                  Effect: Allow
+                  Action:
+                    - 's3:DeleteObject'
+                  Resource: !Sub 'arn:aws:s3:::${S3BucketName}/*'
+                - !Ref 'AWS::NoValue'
+      Tags:
+        - Key: Purpose
+          Value: 'Google Cloud Storage Transfer Service'
+        - Key: ManagedBy
+          Value: 'CloudFormation'
+
+Outputs:
+  RoleArn:
+    Description: 'ARN of the IAM role for Storage Transfer Service (use this in your transfer job configuration)'
+    Value: !GetAtt StorageTransferServiceRole.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-RoleArn'
+  
+  RoleName:
+    Description: 'Name of the IAM role'
+    Value: !Ref StorageTransferServiceRole
+  
+  NextSteps:
+    Description: 'Instructions for next steps'
+    Value: 'Copy the RoleArn output and use it when creating your Storage Transfer Service job in Google Cloud'
